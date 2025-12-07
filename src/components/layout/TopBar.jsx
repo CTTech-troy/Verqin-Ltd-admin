@@ -1,24 +1,34 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import  Button  from '../ui/Button';
-import { LogOutIcon, UserIcon, SettingsIcon } from 'lucide-react';
-function TopBar() {
+import Button from '../ui/Button';
+import { LogOutIcon, UserIcon, SettingsIcon, MenuIcon } from 'lucide-react';
+function TopBar({ onHamburger }) {
   const {
     user,
     logout
   } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
-  return <div className="bg-white border-b border-gray-200 px-6 py-4">
+  return (
+    <div className="bg-white border-b border-gray-200 px-6 py-4">
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-semibold text-gray-900">
-            Welcome back, {user?.name}
-          </h2>
-          <p className="text-sm text-gray-500">
-            Manage your recruitment operations
-          </p>
+        <div className="flex items-center">
+          {/* Hamburger for mobile */}
+          <button
+            className="md:hidden mr-4 p-2 rounded hover:bg-gray-100 focus:outline-none"
+            onClick={onHamburger}
+            aria-label="Open sidebar"
+          >
+            <MenuIcon className="w-6 h-6 text-gray-700" />
+          </button>
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900">
+              Welcome back, {user?.name}
+            </h2>
+            <p className="text-sm text-gray-500">
+              Manage your recruitment operations
+            </p>
+          </div>
         </div>
-
         <div className="flex items-center space-x-4">
           <div className="relative">
             <button onClick={() => setShowMenu(!showMenu)} className="flex items-center space-x-3 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
@@ -32,7 +42,6 @@ function TopBar() {
                 <p className="text-xs text-gray-500">{user?.email}</p>
               </div>
             </button>
-
             {showMenu && <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-10">
                 <button className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2">
                   <SettingsIcon className="w-4 h-4" />
@@ -46,7 +55,9 @@ function TopBar() {
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 }
+
 
 export default TopBar
